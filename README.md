@@ -28,7 +28,7 @@ AuraSpring is a Flask-based web application designed to support individuals affe
 
 - **Backend:** Flask, SQLite or PostgreSQL  
 - **Frontend:** HTML, CSS, Bootstrap or Tailwind CSS, Chart.js  
-- **APIs:** OpenAI (for AI chatbot), optional Weather/Quotes API
+- **APIs:** GeminiAI (for AI chatbot), optional Quotes API
 
 ---
 
