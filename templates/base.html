@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" class="overflow-hidden">
+  <head>
+    <meta charset="UTF-8" />
+    <title>AuraSpring | {% block title %}{% endblock title %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&family=Nunito&family=Poppins&family=Inter&family=Playfair+Display&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.5.1/SmoothScroll.min.js"></script>
+  </head>
+
+  <body class="font-[Nunito] bg-gradient-to-br from-pink-200 via-white to-teal-200 text-gray-900">
+    <nav class="px-16 pt-6">
+        <div class="flex items-center justify-between flex-wrap">
+            <div class="flex gap-6 text-lg font-semibold">
+                <a href="#home" class="hover:text-pink-500 transition-all">Home</a>
+                <a href="#about" class="hover:text-pink-500 transition-all">About</a>
+                <a href="#contact" class="hover:text-pink-500 transition-all">Contact</a>
+            </div>
+    
+            <div class="mt-4 sm:mt-0">
+                <a href="/signup" class="px-5 py-2 bg-teal-400 text-white rounded-md hover:bg-teal-500 transition-all font-semibold">
+                    Sign Up
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    {% block content %}
+    
+    {% endblock content %}
+  </body>
+</html>
