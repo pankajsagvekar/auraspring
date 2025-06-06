@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="overflow-hidden">
+<html lang="en" class="md:overflow-hidden">
   <head>
     <meta charset="UTF-8" />
     <title>AuraSpring | {% block title %}{% endblock title %}</title>
@@ -9,22 +9,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.5.1/SmoothScroll.min.js"></script>
   </head>
 
-  <body class="font-[Nunito] bg-gradient-to-br from-pink-200 via-white to-teal-200 text-gray-900">
+  <body class="font-[Nunito] bg-gradient-to-br from-pink-200 via-white to-teal-200 text-gray-900 cursor-[url('{{ url_for('static', filename='cursor.svg') }}'),_auto]">
+    {% if is_home %}
+
     <nav class="px-16 pt-6">
         <div class="flex items-center justify-between flex-wrap">
             <div class="flex gap-6 text-lg font-semibold">
-                <a href="#home" class="hover:text-pink-500 transition-all">Home</a>
-                <a href="#about" class="hover:text-pink-500 transition-all">About</a>
-                <a href="#contact" class="hover:text-pink-500 transition-all">Contact</a>
+                <a href="#home" class="hover:text-pink-500 transition-all hover:cursor-[url('{{ url_for('static', filename='hover.svg') }}'),_auto]">Home</a>
+                <a href="#about" class="hover:text-pink-500 transition-all hover:cursor-[url('{{ url_for('static', filename='hover.svg') }}'),_auto]">About</a>
+                <a href="#contact" class="hover:text-pink-500 transition-all hover:cursor-[url('{{ url_for('static', filename='hover.svg') }}'),_auto]">Contact</a>
             </div>
     
             <div class="mt-4 sm:mt-0">
-                <a href="/signup" class="px-5 py-2 bg-teal-400 text-white rounded-md hover:bg-teal-500 transition-all font-semibold">
+                <a href="/signup" class="px-5 py-2 bg-teal-400 text-white rounded-md hover:bg-teal-500 transition-all font-semibold hover:cursor-[url('{{ url_for('static', filename='hover.svg') }}'),_auto]">
                     Sign Up
                 </a>
             </div>
         </div>
     </nav>
+    {% endif %}
     
     {% block content %}
     
