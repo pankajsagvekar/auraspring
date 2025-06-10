@@ -1,0 +1,16 @@
+<nav class="px-16 p-6 bg-white border-b shadow-sm">
+    <div class="flex items-center justify-between flex-wrap">
+        <div class="flex gap-6 text-lg font-semibold">
+            <a href="/dashboard" class="pr-2 hover:text-pink-500 transition-all hover:cursor-[url('{{ url_for('static', filename='hover.svg') }}'),_auto]">Dashboard</a>
+            <a href="/moodtracker" class="pr-2 hover:text-pink-500 transition-all hover:cursor-[url('{{ url_for('static', filename='hover.svg') }}'),_auto]">MoodTracker</a>
+            <a href="/ai_chatbot" class="pr-2 hover:text-pink-500 transition-all hover:cursor-[url('{{ url_for('static', filename='hover.svg') }}'),_auto]">AI Chatbot</a>
+            <a href="/resources_library" class="hover:text-pink-500 transition-all hover:cursor-[url('{{ url_for('static', filename='hover.svg') }}'),_auto]">Resources Library</a>
+        </div>
+
+        <div class="mt-4 sm:mt-0">
+            <a href="/" class="px-5 py-2 bg-red-400 text-white rounded-md hover:bg-red-500 transition-all font-semibold hover:cursor-[url('{{ url_for('static', filename='hover.svg') }}'),_auto]">
+                Logout
+            </a>
+        </div>
+    </div>
+</nav>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="md:overflow-hidden">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <title>AuraSpring | {% block title %}{% endblock title %}</title>
@@ -8,8 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand&family=Nunito&family=Poppins&family=Inter&family=Playfair+Display&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.5.1/SmoothScroll.min.js"></script>
   </head>
-
-  <body class="font-[Nunito] bg-gradient-to-br from-pink-200 via-white to-teal-200 text-gray-900 cursor-[url('{{ url_for('static', filename='cursor.svg') }}'),_auto]">
+  
+  <body class="font-[Nunito] {% if not_dashboard %} bg-gradient-to-br from-pink-200 via-white to-teal-200 md:overflow-hidden {% endif %} text-gray-900  cursor-[url('{{ url_for('static', filename='cursor.svg') }}'),_auto]">
     {% if is_home %}
 
     <nav class="px-16 pt-6">
