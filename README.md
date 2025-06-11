@@ -3,8 +3,6 @@
 
 AuraSpring is a Flask-based web application designed to support individuals affected by **Seasonal Affective Disorder (SAD)** during the spring season. It provides a calming space to track moods, chat with an AI companion, and access seasonal mental health resources.
 
----
-
 ## 🌟 Features
 
 - 📝 **Mood Tracker**  
@@ -22,7 +20,6 @@ AuraSpring is a Flask-based web application designed to support individuals affe
 - 🔐 **User Profiles**  
   Secure login and personal mood history dashboard.
 
----
 
 ## 🛠 Tech Stack
 
@@ -30,7 +27,6 @@ AuraSpring is a Flask-based web application designed to support individuals affe
 - **Frontend:** HTML, CSS, Bootstrap or Tailwind CSS, Chart.js  
 - **APIs:** GeminiAI (for AI chatbot), optional Quotes API
 
----
 
 ## 🌱 Built for Hackathon
 This project was created as part of IngeniumSTEM Spring Hacks 1.0, a hackathon focused on spring-inspired innovations and tech for wellness.
