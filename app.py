@@ -1,6 +1,19 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
+import os
+import google.generativeai as genai
+from dotenv import load_dotenv
+import markdown
+
 
 app = Flask(__name__)
+
+load_dotenv()
+
+SYSTEM_PROMPT = "You are a helpful and friendly AI mental health assistant. Keep answers supportive, calm, and empathetic. Avoid medical advice—suggest helpful resources instead."
+
+# Secure Gemini API setup
+genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+model = genai.GenerativeModel("gemini-2.0-flash")
 
 @app.route('/')
 def home():
@@ -8,13 +21,6 @@ def home():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    # if request.method == 'POST':
-    #     # handle form data
-    #     name = request.form['name']
-    #     email = request.form['email']
-    #     password = request.form['password']
-    #     # add logic (e.g., save to DB)
-    #     return "Signed up successfully!"
     return render_template('signup.html', is_home=False, not_dashboard=True)
 
 @app.route('/login')
@@ -37,9 +43,24 @@ def ai_chatbot():
 def resources_library():
     return render_template('resources_library.html', is_home=False, not_dashboard=False)
 
+@app.route('/chat', methods=['POST'])
+def chat():
+    data = request.get_json()
+    user_message = data.get("message", "")
+
+    try:
+        full_prompt = f"{SYSTEM_PROMPT}\nUser: {user_message}\nAI:"
+        gemini_response = model.generate_content(full_prompt)
+        markdown_text = gemini_response.text.strip()
+        html_output = markdown.markdown(markdown_text)
+    except Exception as e:
+        html_output = "<p>Sorry, something went wrong.</p>"
+
+    return jsonify({"reply": html_output})
+
 @app.errorhandler(404)
-def ot_found(e):
-    return render_template("404.html",  is_home=False, not_dashboard=False)
+def not_found(e):
+    return render_template("404.html", is_home=False, not_dashboard=False)
 
 if __name__ == '__main__':
     app.run(debug=True)

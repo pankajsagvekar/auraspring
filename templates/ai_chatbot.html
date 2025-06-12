@@ -1,10 +1,82 @@
 {% extends "base.html" %}
-
-{% block title %}AI Chatbot{% endblock title %}
-
+{% block title %}AI Chatbot{% endblock %}
 {% block content %}
 {% include 'dashboard_nav.html' %}
 
+<!-- Chat UI -->
+<section class="bg-white min-h-screen px-4 py-10">
+  <div class="max-w-3xl mx-auto bg-gray-100 rounded-xl shadow-lg p-6">
+    <h2 class="text-2xl font-bold mb-4 text-center text-gray-800">Talk to our AI Chatbot</h2>
 
+    <!-- Chat box -->
+    <div id="chat-box" class="h-96 overflow-y-auto bg-white p-4 rounded-lg border border-gray-300 mb-4 space-y-4">
+      <!-- Messages will appear here -->
+    </div>
 
-{% endblock content %}
+    <!-- Input form -->
+    <form id="chat-form" class="flex gap-2">
+      <input type="text" id="user-input" placeholder="Ask something..."
+        class="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400">
+      <button type="submit"
+        class="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-lg transition">Send</button>
+    </form>
+  </div>
+</section>
+
+<!-- Tailwind Typography Plugin for prose class -->
+<link href="https://cdn.jsdelivr.net/npm/@tailwindcss/typography@0.5.9/dist/typography.min.css" rel="stylesheet">
+
+<!-- Chat handling -->
+<script>
+  const form = document.getElementById('chat-form');
+  const input = document.getElementById('user-input');
+  const chatBox = document.getElementById('chat-box');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const userText = input.value.trim();
+    if (!userText) return;
+
+    // Append user message
+    chatBox.innerHTML += `
+      <div class="flex justify-end">
+        <div class="max-w-xs bg-teal-500 text-white p-3 rounded-2xl rounded-br-sm shadow text-sm">
+          ${userText}
+        </div>
+      </div>
+    `;
+    input.value = '';
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    try {
+      // Send to backend
+      const res = await fetch('/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userText })
+      });
+
+      const data = await res.json();
+
+      // Append bot response
+      chatBox.innerHTML += `
+        <div class="flex justify-start">
+          <div class="max-w-xs bg-gray-200 text-gray-800 p-3 rounded-2xl rounded-bl-sm shadow text-sm prose max-w-none">
+            ${data.reply}
+          </div>
+        </div>
+      `;
+      chatBox.scrollTop = chatBox.scrollHeight;
+    } catch (error) {
+      chatBox.innerHTML += `
+        <div class="flex justify-start">
+          <div class="max-w-xs bg-red-200 text-red-800 p-3 rounded-xl shadow text-sm">
+            Something went wrong. Please try again.
+          </div>
+        </div>
+      `;
+    }
+  });
+</script>
+
+{% endblock %}
