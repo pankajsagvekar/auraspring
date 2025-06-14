@@ -5,19 +5,51 @@
 {% block content %}
 {% include 'dashboard_nav.html' %}
 
-<!-- Quote Section -->
-<section class="py-6 shadow-inner">
-  <div class="max-w-3xl mx-auto text-center px-4">
-    <h2 id="quote-text" class="text-xl sm:text-2xl font-semibold text-gray-800 italic">
+<!-- Hero Quote Section -->
+<section class="py-10 bg-gradient-to-br from-mint-100 to-white dark:from-gray-900 dark:to-gray-800">
+  <div class="max-w-4xl mx-auto text-center px-4">
+    <h2 id="quote-text" class="text-2xl sm:text-3xl font-bold">
       Loading quote...
     </h2>
-    <p id="quote-author" class="mt-2 text-sm text-gray-600"></p>
+    <p id="quote-author" class="mt-2 text-sm text-gray-600 dark:text-gray-400"></p>
   </div>
 </section>
 
-<div class="p-6">
-  <!-- Dashboard widgets go here -->
-</div>
+<section class="px-6 py-12 bg-gray-100 dark:bg-gray-900">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+    <a href = "/moodtracker" class = "hover:cursor-[url('{{ url_for('static', filename='hover.svg') }}'),_auto]">
+      <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
+        <img class="w-full h-48 object-cover" src="{{ url_for('static', filename='moodtracker.svg') }}" alt="Mood Tracker">
+        <div class="p-6">
+          <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Mood Tracker</h3>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Track your emotional well-being daily and visualize your progress with meaningful insights.</p>
+        </div>
+      </div>
+    </a>
+
+   <a href = "/ai_chatbot" class="hover:cursor-[url('{{ url_for('static', filename='hover.svg') }}'),_auto]">
+      <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
+        <img class="w-full h-48 object-cover" src="{{ url_for('static', filename='ai_chatbot.svg') }}" alt="Journaling">
+        <div class="p-6">
+          <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Ai Chatbot</h3>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Get instant support and answers through our intelligent, always-available AI companion.</p>
+        </div>
+      </div>
+   </a>
+
+    <a href="/resources_library" class = "hover:cursor-[url('{{ url_for('static', filename='hover.svg') }}'),_auto]">
+      <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
+        <img class="w-full h-48 object-cover" src="{{ url_for('static', filename='resource_library.svg') }}" alt="Resources">
+        <div class="p-6">
+          <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Resources Library</h3>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Explore curated tools, articles, and videos to support your mental wellness journey.</p>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</section>
 
 <script>
   async function loadQuote() {
@@ -32,7 +64,6 @@
     }
   }
 
-  // Load a new quote when page loads
   window.addEventListener("DOMContentLoaded", loadQuote);
 </script>
 
