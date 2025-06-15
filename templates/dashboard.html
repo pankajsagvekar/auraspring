@@ -5,48 +5,73 @@
 {% block content %}
 {% include 'dashboard_nav.html' %}
 
-<!-- Hero Quote Section -->
-<section class="py-10 bg-gradient-to-br from-mint-100 to-white dark:from-gray-900 dark:to-gray-800">
-  <div class="max-w-4xl mx-auto text-center px-4">
-    <h2 id="quote-text" class="text-2xl sm:text-3xl font-bold">
-      Loading quote...
-    </h2>
-    <p id="quote-author" class="mt-2 text-sm text-gray-600 dark:text-gray-400"></p>
+<section class="py-12 bg-gradient-to-br from-teal-50 via-mint-100 to-white">
+  <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-center text-center md:text-left">
+    
+    <div>
+      <div class="text-xl text-gray-700 font-medium">Welcome back, 
+        <span class="text-mint-600 font-bold">AuraSpring Explorer</span> 👋
+      </div>
+      <p class="text-sm text-gray-500 mt-1">Here’s a quick look at your mental wellness tools</p>
+    </div>
+    
+    <div>
+      <div class="text-mint-700 text-lg font-semibold mb-2">Your Daily Inspiration ✨ </div>
+      <h2 id="quote-text" class="text-xl md:text-2xl font-bold text-gray-800">Loading quote...</h2>
+      <p id="quote-author" class="mt-2 text-sm text-gray-600 italic"></p>
+    </div>
+
   </div>
 </section>
 
-<section class="px-6 py-12 bg-gray-100 dark:bg-gray-900">
+<section class="px-6 py-12 bg-gradient-to-br from-pink-50 via-mint-100 to-white">
   <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
-    <a href = "/moodtracker" class = "hover:cursor-[url('{{ url_for('static', filename='hover.svg') }}'),_auto]">
-      <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
+    <!-- Mood Tracker -->
+    <a href="/moodtracker" class="hover:cursor-[url('{{ url_for('static', filename='hover.svg') }}'),_auto]">
+      <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300">
         <img class="w-full h-48 object-cover" src="{{ url_for('static', filename='moodtracker.svg') }}" alt="Mood Tracker">
         <div class="p-6">
-          <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Mood Tracker</h3>
-          <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Track your emotional well-being daily and visualize your progress with meaningful insights.</p>
+          <h3 class="text-xl font-semibold text-gray-800">Mood Tracker</h3>
+          <p class="mt-2 text-sm text-gray-600">Track your emotional well-being daily and visualize your progress with meaningful insights.</p>
         </div>
       </div>
     </a>
 
-   <a href = "/ai_chatbot" class="hover:cursor-[url('{{ url_for('static', filename='hover.svg') }}'),_auto]">
-      <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
-        <img class="w-full h-48 object-cover" src="{{ url_for('static', filename='ai_chatbot.svg') }}" alt="Journaling">
+    <!-- AI Chatbot -->
+    <a href="/ai_chatbot" class="hover:cursor-[url('{{ url_for('static', filename='hover.svg') }}'),_auto]">
+      <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300">
+        <img class="w-full h-48 object-cover" src="{{ url_for('static', filename='ai_chatbot.svg') }}" alt="AI Chatbot">
         <div class="p-6">
-          <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Ai Chatbot</h3>
-          <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Get instant support and answers through our intelligent, always-available AI companion.</p>
+          <h3 class="text-xl font-semibold text-gray-800">AI Chatbot</h3>
+          <p class="mt-2 text-sm text-gray-600">Get instant support and answers through our intelligent, always-available AI companion.</p>
         </div>
       </div>
-   </a>
+    </a>
 
-    <a href="/resources_library" class = "hover:cursor-[url('{{ url_for('static', filename='hover.svg') }}'),_auto]">
-      <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
+    <!-- Resources Library -->
+    <a href="/resources_library" class="hover:cursor-[url('{{ url_for('static', filename='hover.svg') }}'),_auto]">
+      <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300">
         <img class="w-full h-48 object-cover" src="{{ url_for('static', filename='resource_library.svg') }}" alt="Resources">
         <div class="p-6">
-          <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Resources Library</h3>
-          <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Explore curated tools, articles, and videos to support your mental wellness journey.</p>
+          <h3 class="text-xl font-semibold text-gray-800">Resources Library</h3>
+          <p class="mt-2 text-sm text-gray-600">Explore curated tools, articles, and videos to support your mental wellness journey.</p>
         </div>
       </div>
     </a>
+
+    <!-- Daily Tip Card -->
+    <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 p-6 sm:col-span-2 lg:col-span-1 flex flex-col justify-between">
+      <div>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">💡 Daily Mental Health Tip</h3>
+        <p id="daily-tip" class="text-sm text-gray-600">
+          Breathe deeply – even just 3 mindful breaths can reset your mind and body.
+        </p>
+      </div>
+      <button onclick="refreshTip()" class="mt-4 bg-mint-600 text-white text-sm px-4 py-2 rounded hover:bg-mint-700 transition">
+        New Tip
+      </button>
+    </div>
 
   </div>
 </section>
@@ -64,7 +89,23 @@
     }
   }
 
-  window.addEventListener("DOMContentLoaded", loadQuote);
+  const tips = [
+    "Take a mindful walk in nature today.",
+    "Hydrate well — even slight dehydration affects mood.",
+    "Write down one thing you're grateful for.",
+    "Reach out to a friend and say hi.",
+    "Practice 4-7-8 breathing to reduce stress."
+  ];
+
+  function refreshTip() {
+    const randomTip = tips[Math.floor(Math.random() * tips.length)];
+    document.getElementById("daily-tip").innerText = randomTip;
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    loadQuote();
+    refreshTip();
+  });
 </script>
 
 {% endblock content %}
