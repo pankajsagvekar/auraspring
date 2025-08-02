@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session
 import os
 import google.generativeai as genai
 from dotenv import load_dotenv
@@ -8,6 +8,7 @@ import markdown
 app = Flask(__name__)
 
 load_dotenv()
+app.secret_key = os.environ.get('SECRET_KEY', 'fallback-secret-key')
 
 SYSTEM_PROMPT = "You are a helpful and friendly AI mental health assistant. Keep answers supportive, calm, and empathetic. Avoid medical advice—suggest helpful resources instead."
 
@@ -31,9 +32,19 @@ def login():
 def dashboard():
     return render_template('dashboard.html', is_home=False, not_dashboard=False)
 
-@app.route('/moodtracker')
+@app.route('/moodtracker', methods=['GET', 'POST'])
 def moodtracker():
-    return render_template('moodtracker.html', is_home=False, not_dashboard=False)
+    if request.method == 'POST':
+        mood = request.form['mood']
+        # Save the mood to DB or session (for now we'll store it in a list)
+        session.setdefault('moods', []).append(mood)
+        session.modified = True
+
+    moods_list = session.get('moods', [])
+    mood_values = [ ['😢','😰','😐','😊','😡'].index(m) for m in moods_list ]
+    labels = [f"Day {i+1}" for i in range(len(mood_values))]
+
+    return render_template('moodtracker.html', labels=labels, moods=mood_values, is_home=False, not_dashboard=False)
 
 @app.route('/ai_chatbot')
 def ai_chatbot():

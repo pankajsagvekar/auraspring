@@ -84,7 +84,7 @@
       document.getElementById("quote-text").innerText = `“${data.content}”`;
       document.getElementById("quote-author").innerText = `– ${data.author}`;
     } catch (error) {
-      document.getElementById("quote-text").innerText = "Stay positive and keep going!";
+      document.getElementById("quote-text").innerText = `Stay positive and keep going! ${error}`;
       document.getElementById("quote-author").innerText = "";
     }
   }
