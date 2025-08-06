@@ -14,10 +14,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-@app.before_first_request
-def create_tables():
-    db.create_all()
-
 SYSTEM_PROMPT = (
     "You are a helpful and friendly AI mental health assistant. "
     "Keep answers supportive, calm, and empathetic. "
