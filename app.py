@@ -127,6 +127,15 @@ def chat():
 def not_found(e):
     return render_template("404.html", is_home=False, not_dashboard=False)
 
+@app.route('/about')
+def about():
+    return render_template('about.html', is_home=False, not_dashboard=True)
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html', is_home=False, not_dashboard=True)
+
+
 # ========== INITIALIZER ==========
 if __name__ == '__main__':
     with app.app_context():

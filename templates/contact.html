@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Contact{% endblock title %}
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-teal-100 via-white to-pink-100 px-6 py-16 text-gray-800">
+  <div class="max-w-2xl mx-auto text-center">
+    <h1 class="text-4xl font-bold text-teal-600 mb-6">Contact Us</h1>
+    <p class="text-lg mb-6">We’d love to hear from you. Whether it's feedback, collaboration, or just a hello!</p>
+    
+    <form action="https://formspree.io/f/mblkzqqp" method="POST" class="space-y-4">
+      <input type="text" name="name" placeholder="Your Name" required
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-400" />
+      <input type="email" name="email" placeholder="Your Email" required
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-400" />
+      <textarea name="message" placeholder="Your Message" rows="5" required
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-400"></textarea>
+      <button type="submit"
+        class="w-full bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 rounded-lg transition">Send Message</button>
+    </form>
+
+    <div class="mt-10">
+      <a href="/" class="text-teal-500 hover:underline font-semibold">&larr; Back to Home</a>
+    </div>
+  </div>
+</div>
+{% endblock content %}
