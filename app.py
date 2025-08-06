@@ -1,20 +1,38 @@
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 import os
 import google.generativeai as genai
-from dotenv import load_dotenv
 import markdown
-
 
 app = Flask(__name__)
 
-load_dotenv()
 app.secret_key = os.environ.get('SECRET_KEY', 'fallback-secret-key')
 
-SYSTEM_PROMPT = "You are a helpful and friendly AI mental health assistant. Keep answers supportive, calm, and empathetic. Avoid medical advice—suggest helpful resources instead."
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///auraspring.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Secure Gemini API setup
+db = SQLAlchemy(app)
+
+SYSTEM_PROMPT = (
+    "You are a helpful and friendly AI mental health assistant. "
+    "Keep answers supportive, calm, and empathetic. "
+    "Avoid medical advice—suggest helpful resources instead."
+)
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 model = genai.GenerativeModel("gemini-2.0-flash")
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(120), nullable=False)
+
+class MoodEntry(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    mood = db.Column(db.String(10), nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 @app.route('/')
 def home():
@@ -22,27 +40,63 @@ def home():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        password = request.form['password']
+
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            return "User with this email already exists."
+
+        user = User(name=name, email=email, password=password)
+        db.session.add(user)
+        db.session.commit()
+        session['user_id'] = user.id
+        return redirect(url_for('dashboard'))
     return render_template('signup.html', is_home=False, not_dashboard=True)
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        user = User.query.filter_by(email=email, password=password).first()
+        if user:
+            session['user_id'] = user.id
+            return redirect(url_for('dashboard'))
+        else:
+            return "Invalid email or password."
     return render_template('login.html', is_home=False, not_dashboard=True)
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    return redirect(url_for('home'))
 
 @app.route('/dashboard')
 def dashboard():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     return render_template('dashboard.html', is_home=False, not_dashboard=False)
 
 @app.route('/moodtracker', methods=['GET', 'POST'])
 def moodtracker():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+
     if request.method == 'POST':
         mood = request.form['mood']
-        # Save the mood to DB or session (for now we'll store it in a list)
-        session.setdefault('moods', []).append(mood)
-        session.modified = True
+        mood_entry = MoodEntry(mood=mood, user_id=user_id)
+        db.session.add(mood_entry)
+        db.session.commit()
 
-    moods_list = session.get('moods', [])
-    mood_values = [ ['😢','😰','😐','😊','😡'].index(m) for m in moods_list ]
-    labels = [f"Day {i+1}" for i in range(len(mood_values))]
+    moods = MoodEntry.query.filter_by(user_id=user_id).order_by(MoodEntry.timestamp).all()
+    mood_values = [ ['😢','😰','😐','😊','😡'].index(m.mood) for m in moods ]
+    labels = [m.timestamp.strftime('%b %d') for m in moods]
 
     return render_template('moodtracker.html', labels=labels, moods=mood_values, is_home=False, not_dashboard=False)
 
@@ -64,7 +118,7 @@ def chat():
         gemini_response = model.generate_content(full_prompt)
         markdown_text = gemini_response.text.strip()
         html_output = markdown.markdown(markdown_text)
-    except Exception as e:
+    except Exception:
         html_output = "<p>Sorry, something went wrong.</p>"
 
     return jsonify({"reply": html_output})
@@ -73,5 +127,8 @@ def chat():
 def not_found(e):
     return render_template("404.html", is_home=False, not_dashboard=False)
 
+# ========== INITIALIZER ==========
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
