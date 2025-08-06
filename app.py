@@ -14,6 +14,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+@app.before_first_request
+def create_tables():
+    db.create_all()
+
 SYSTEM_PROMPT = (
     "You are a helpful and friendly AI mental health assistant. "
     "Keep answers supportive, calm, and empathetic. "
@@ -33,6 +37,7 @@ class MoodEntry(db.Model):
     mood = db.Column(db.String(10), nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
 
 @app.route('/')
 def home():
