@@ -1,46 +1,69 @@
 # 🌸 AuraSpring – AI-Powered Springtime Mood Companion  
 **Developed for IngeniumSTEM Spring Hacks 1.0**
 
-AuraSpring is a Flask-based web application designed to support individuals affected by **Seasonal Affective Disorder (SAD)** during the spring season. It provides a calming space to track moods, chat with an AI companion, and access seasonal mental health resources.
+AuraSpring is a calming web companion designed to help individuals manage **Seasonal Affective Disorder (SAD)** during the spring season. Built with Flask and integrated with Google's Gemini AI, it offers mood tracking, emotional insights, and a supportive chatbot for mental wellness.
+
+---
 
 ## 🌟 Features
 
 - 📝 **Mood Tracker**  
-  Log your mood daily using emojis and visualize emotional trends over time.
+  Log your daily mood using emojis and visualize trends over time.
 
 - 💬 **AI Chatbot Companion**  
-  A friendly AI chatbot that provides emotional check-ins and comforting responses.
+  Powered by Gemini AI, this chatbot offers comforting and empathetic responses.
 
-- 📚 **Mental Health Resources**  
-  Access curated springtime resources to support mental health and well-being.
+- 📚 **Resource Library**  
+  Access curated spring-focused mental health tips and self-care resources.
 
 - 📊 **Mood Visualization**  
-  Track your emotional patterns using interactive charts.
+  View your emotional patterns with interactive charts.
 
-- 🔐 **User Profiles**  
-  Secure login and personal mood history dashboard.
+- 🔐 **User Accounts**  
+  Secure login, signup, and personalized dashboards.
 
+---
 
-## 🛠 Tech Stack
+## Tech Stack
 
-- **Backend:** Flask, SQLite or PostgreSQL  
-- **Frontend:** HTML, CSS, Bootstrap or Tailwind CSS, Chart.js  
-- **APIs:** GeminiAI (for AI chatbot), optional Quotes API
+| Layer       | Tech Used                                 |
+|-------------|--------------------------------------------|
+| **Backend** | Flask, SQLite (or PostgreSQL optional)     |
+| **Frontend**| HTML, Tailwind CSS, Chart.js, Lottie       |
+| **AI API**  | Gemini AI (Google Generative AI)           |
+| **Hosting** | Render (Free Web Service)                  |
 
-
-## 🌱 Built for Hackathon
-This project was created as part of IngeniumSTEM Spring Hacks 1.0, a hackathon focused on spring-inspired innovations and tech for wellness.
+---
 
 ## 🚀 Getting Started
 
-### Prerequisites
+### 📦 Prerequisites
 
 - Python 3.x  
-- pip (Python package installer)
+- `pip` (Python package installer)  
+- Gemini API Key from [Google AI Studio](https://makersuite.google.com/app)
 
-### Installation
+---
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/auraspring.git
-   cd auraspring
+### 🔧 Local Installation
+
+```bash
+# 1. Clone the repo
+git clone https://github.com/your-username/auraspring.git
+cd auraspring
+
+# 2. Create a virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Create environment variable file
+touch .env
+Inside .env, add:
+SECRET_KEY=your-secret-key
+GEMINI_API_KEY=your-gemini-api-key
+
+# 5. Run the app
+python app.py
